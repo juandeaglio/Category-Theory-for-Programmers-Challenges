@@ -9,7 +9,9 @@ def function_argument_fixture():
     a = 2
     return a
 
-
+# Implement the composition function in your favorite language. It
+# takes two functions as arguments and returns a function that is
+# their composition.
 def test_composed_function(function_argument_fixture):
     T = TypeVar('T')
 
@@ -27,6 +29,8 @@ def test_composed_function(function_argument_fixture):
 def compose(f, g, x):
     return f(g(x))
 
+# Write a program that tries to test that your composition function
+# respects identity.
 def test_composed_function_is_identity():
     identity: Callable[[int], int] = lambda x: x
 
@@ -40,7 +44,8 @@ def test_composed_function_is_identity():
 
     assert result == identity(1)
 
-
+# Write a program that tries to test that your composition function
+# respects identity.
 def test_composed_function_is_not_identity(function_argument_fixture):
     identity: Callable[[int], int] = lambda x: x
 
