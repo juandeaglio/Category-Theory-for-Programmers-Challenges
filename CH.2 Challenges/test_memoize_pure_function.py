@@ -63,12 +63,13 @@ def test_memoize_slow_pow():
     assert memoized_call < not_memoized_call and retval == retval2 and retval2 == 4
 
 
+# the memoization behaves as expected, but random.random should always produce random numbers
 def test_memoize_random_no_args():
     not_memoized = memoize_function(random.random)
     memoized = memoize_function(random.random)
 
     epsilon = 1 / math.pow(10, 5)
-    assert pytest.approx(memoized, epsilon) == pytest.approx(not_memoized, epsilon)
+    assert pytest.approx(memoized, epsilon) != pytest.approx(not_memoized, epsilon)
 
 
 def seeded_random(seed):
@@ -76,6 +77,9 @@ def seeded_random(seed):
     return random.random()
 
 
+# the memoization with a seed here produces the same result, and it should as expected
+# random.seed could be inherited by new processes but this is OS dependent,
+# random.seed might also not be threadsafe, and so needs to be tested in multithreading solutions
 def test_memoize_seeded_random_with_time():
     not_memoized = memoize_function(seeded_random, time.time())
     memoized = memoize_function(seeded_random, time.time())
@@ -92,6 +96,7 @@ def test_memoize_factorial():
     assert not_memoized == memoized
 
 
+# you can't really memoize something like this, further pytest doesnt seem to like the usage of input in test
 def test_memoize_getchar():
     not_memoized = memoize_function(input)
     memoized = memoize_function(input)
@@ -104,6 +109,7 @@ def bool_func_with_print():
     return True
 
 
+# it is memoized but the print side effect is not reproduced for memoized calls
 def test_memoize_bool_with_side_effect():
     not_memoized = memoize_function(bool_func_with_print)
     memoized = memoize_function(bool_func_with_print)
@@ -116,19 +122,19 @@ y = 0
 
 def add_to_static(x: int):
     global y
-    y = 0
 
     y += x
     return y
 
 
+# undefined behavior, the global value should be added to between function calls
 def test_memoize_add_to_static():
     not_memoized = memoize_function(add_to_static, 5)
     memoized = memoize_function(add_to_static, 5)
 
-    assert not_memoized == memoized and memoized == 5
+    assert not_memoized == memoized and memoized == 10
 
     not_memoized = memoize_function(add_to_static, 10)
 
-    assert not_memoized != 10
+    assert not_memoized == 20
 
