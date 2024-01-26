@@ -8,12 +8,13 @@ usleep = lambda x: time.sleep(x/1000.0)
 
 memoized = {}
 
+T = TypeVar('T')
 
 def upper_pure_function(func, arg):
     if memoized.get(arg) is None:
-        function: Callable[[...], TypeVar] = func
+        function: Callable[[...], T] = func
         usleep(500)
-        value: TypeVar = function(arg)
+        value: T = function(arg)
         memoized[arg] = value
         return value
     else:
@@ -35,4 +36,4 @@ def test_composed_function():
     end = time.time()
     memoized_call = end - start
 
-    assert memoized_call < not_memoized_call and retval == retval2
+    assert memoized_call < not_memoized_call and retval == retval2 and retval == "HELLO!"
