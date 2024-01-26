@@ -1,6 +1,7 @@
 """Tests for composing two functions into each other for a resulting function"""
 import math
 import random
+import sys
 import time
 from typing import TypeVar, Callable
 import pytest
@@ -60,7 +61,7 @@ def test_memoize_slow_pow():
     end = time.time()
     memoized_call = end - start
 
-    assert memoized_call < not_memoized_call and retval == retval2 and retval == 4
+    assert memoized_call < not_memoized_call and retval == retval2 and retval2 == 4
 
 
 def test_memoize_random_no_args():
@@ -70,9 +71,11 @@ def test_memoize_random_no_args():
     epsilon = 1 / math.pow(10, 5)
     assert pytest.approx(memoized, epsilon) == pytest.approx(not_memoized, epsilon)
 
+
 def seeded_random(seed):
     random.seed = seed
     return random.random()
+
 
 def test_memoize_seeded_random_with_time():
     not_memoized = memoize_function(seeded_random, time.time())
@@ -81,9 +84,20 @@ def test_memoize_seeded_random_with_time():
     epsilon = 1 / math.pow(10, 5)
     assert pytest.approx(memoized, epsilon) == pytest.approx(not_memoized, epsilon)
 
+
 def test_memoize_factorial():
     factorial_to = 10
     not_memoized = memoize_function(math.factorial, factorial_to)
     memoized = memoize_function(math.factorial, factorial_to)
+
+    assert not_memoized == memoized
+
+
+
+
+
+def test_memoize_getchar():
+    not_memoized = memoize_function(input)
+    memoized = memoize_function(input)
 
     assert not_memoized == memoized
