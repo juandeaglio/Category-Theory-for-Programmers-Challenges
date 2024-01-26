@@ -1,7 +1,6 @@
 """Tests for composing two functions into each other for a resulting function"""
 import math
 import random
-import sys
 import time
 from typing import TypeVar, Callable
 import pytest
@@ -27,8 +26,8 @@ def memoize_function(func, *argv):
         value: T = function(*argv)
         memoized[argv] = value
         return value
-    else:
-        return memoized.get(argv)
+
+    return memoized.get(argv)
 
 
 # Implement the composition function in your favorite language. It
