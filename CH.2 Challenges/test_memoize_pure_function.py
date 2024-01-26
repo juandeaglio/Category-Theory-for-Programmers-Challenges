@@ -62,7 +62,28 @@ def test_memoize_slow_pow():
 
     assert memoized_call < not_memoized_call and retval == retval2 and retval == 4
 
-#def test_memoize_random_no_args():
-#    not_memoized = memoize_function(random.random)
- #   memoized = memoize_function(random.random)
-#    assert memoized != not_memoized
+
+def test_memoize_random_no_args():
+    not_memoized = memoize_function(random.random)
+    memoized = memoize_function(random.random)
+
+    epsilon = 1 / math.pow(10, 5)
+    assert pytest.approx(memoized, epsilon) == pytest.approx(not_memoized, epsilon)
+
+def seeded_random(seed):
+    random.seed = seed
+    return random.random()
+
+def test_memoize_seeded_random_with_time():
+    not_memoized = memoize_function(seeded_random, time.time())
+    memoized = memoize_function(seeded_random, time.time())
+
+    epsilon = 1 / math.pow(10, 5)
+    assert pytest.approx(memoized, epsilon) == pytest.approx(not_memoized, epsilon)
+
+def test_memoize_factorial():
+    factorial_to = 10
+    not_memoized = memoize_function(math.factorial, factorial_to)
+    memoized = memoize_function(math.factorial, factorial_to)
+
+    assert not_memoized == memoized
