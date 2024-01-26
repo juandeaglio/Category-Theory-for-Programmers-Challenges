@@ -92,11 +92,21 @@ def test_memoize_factorial():
     assert not_memoized == memoized
 
 
-
-
-
 def test_memoize_getchar():
     not_memoized = memoize_function(input)
     memoized = memoize_function(input)
 
     assert not_memoized == memoized
+
+
+def bool_func_with_print():
+    print("Hello!")
+    return True
+
+
+def test_memoize_bool_with_side_effect():
+    not_memoized = memoize_function(bool_func_with_print)
+    memoized = memoize_function(bool_func_with_print)
+
+    assert not_memoized == memoized
+
