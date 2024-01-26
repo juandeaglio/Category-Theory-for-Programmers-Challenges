@@ -110,3 +110,25 @@ def test_memoize_bool_with_side_effect():
 
     assert not_memoized == memoized
 
+
+y = 0
+
+
+def add_to_static(x: int):
+    global y
+    y = 0
+
+    y += x
+    return y
+
+
+def test_memoize_add_to_static():
+    not_memoized = memoize_function(add_to_static, 5)
+    memoized = memoize_function(add_to_static, 5)
+
+    assert not_memoized == memoized and memoized == 5
+
+    not_memoized = memoize_function(add_to_static, 10)
+
+    assert not_memoized != 10
+
