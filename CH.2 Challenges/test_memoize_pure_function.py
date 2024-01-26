@@ -3,17 +3,24 @@ import time
 from typing import TypeVar, Callable
 import pytest
 
-
-usleep = lambda x: time.sleep(x/1000.0)
+usleep = lambda x: time.sleep(x / 1000.0)
 
 memoized = {}
 
 T = TypeVar('T')
 
-def upper_pure_function(func, arg):
+
+def memoize_slow_function(func, arg):
+    if memoized.get(arg) is None:
+        usleep(500)
+
+    result = memoize_function(arg, func)
+    return result
+
+
+def memoize_function(arg, func):
     if memoized.get(arg) is None:
         function: Callable[[...], T] = func
-        usleep(500)
         value: T = function(arg)
         memoized[arg] = value
         return value
@@ -24,15 +31,15 @@ def upper_pure_function(func, arg):
 # Implement the composition function in your favorite language. It
 # takes two functions as arguments and returns a function that is
 # their composition.
-def test_composed_function():
+def test_memoize_slow_function():
     start = time.time()
-    retval: str = upper_pure_function(str.upper, "Hello!")
+    retval: str = memoize_slow_function(str.upper, "Hello!")
     end = time.time()
     not_memoized_call = end - start
 
     # now the memoized version
     start = time.time()
-    retval2: str = upper_pure_function(str.upper, "Hello!")
+    retval2: str = memoize_slow_function(str.upper, "Hello!")
     end = time.time()
     memoized_call = end - start
 
