@@ -1,19 +1,20 @@
 import pytest
-from typing import Tuple, TypeVar, Type
+from typing import Tuple, TypeVar, Union
 
 T = TypeVar('T')
+U = TypeVar('U')
 
 
-def first(pair: Tuple[T, T]) -> T:
+def first(pair: Tuple[T, U]) -> Union[T, U]:
     return pair[0]
 
 
-def second(pair: Tuple[T, T]) -> T:
+def second(pair: Tuple[T, U]) -> Union[T, U]:
     return pair[1]
 
 
 @pytest.fixture()
-def product_fixture() -> Tuple[T, T]:
+def product_fixture() -> Tuple[T, U]:
     return 3, 5
 
 
