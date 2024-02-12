@@ -28,14 +28,13 @@ def identity(x: Type[T]) -> Optional(TypeVar):
 
 def compose_functions(f: Callable, g: Callable) -> Callable:
     def composed_functions(x: any):
+        # Apply function f to input x
         res_f = f(x)
-        res_g = g(res_f.value())
-        value_type = type(res_g.value())
 
-        if res_g.is_valid():
-            return Optional(value_type, res_g.value())
-        else:
-            return Optional(value_type)
+        # Apply function g to the result of f
+        res_g = g(res_f.value())
+
+        return res_g
 
     return composed_functions
 
