@@ -40,6 +40,8 @@ def second_int_bool(pair: Tuple[T, U]) -> U:
 
 
 mult_common_factor: int = 2
+
+
 def mult_factor(x: int) -> Tuple[int, bool]:
     return x * mult_common_factor, True
 
@@ -52,18 +54,24 @@ def test_mult_product_second(int_bool_fixture):
     assert second(mult_factor(int_bool_fixture[0])) == int_bool_fixture[1]
 
 
-# @pytest.fixture()
-# def p_q_fixture():
-#     return 2, True
+@pytest.fixture()
+def p_q_fixture():
+    return 2, False
 
 
-def test_reconstruct_first_from_p_q(int_bool_fixture):
+def test_reconstruct_first_from_int_bool(int_bool_fixture):
     common_factor = mult_factor(int_bool_fixture[0])[0] / int_bool_fixture[0]  # this hurts
     assert common_factor == mult_common_factor
 
 
-def test_reconstruct_second_from_p_q(int_bool_fixture):
-    assert int_bool_fixture[1] == mult_factor(int_bool_fixture[1])[1]  # somehow this works, true is treated as 1 underlying impl?
+def test_reconstruct_second_from_int_bool(int_bool_fixture):
+    assert int_bool_fixture[1] == mult_factor(int_bool_fixture[1])[1]  # somehow this works, true is treated as 1
+    # underlying impl?
+
+
+# problems of factors with different types and a function that discards (more-or-less) the second field.
+def test_reconstruct_second_from_p_q(p_q_fixture):
+    assert p_q_fixture[1] != mult_factor(p_q_fixture[1])[1]  # somehow this works, true is treated as 1 underlying impl?
 
 
 if __name__ == '__main__':
