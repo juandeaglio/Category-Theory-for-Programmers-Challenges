@@ -92,3 +92,29 @@ isomorphism between T and T', despite there being two unique isomorphic relation
 
 ### Question 2
 What is a product of two objects in a poset? Hint: Use the universal construction.
+
+The product of two objects in a poset is a composition which leads to another element in the set, or an identity.
+
+If for example I took the product of a two objects in poset with a less-than-equal relation, we'd end up with 
+a value that is greater-than-equal 2 x 4 = 8 & 2 x 3 = 6, or 1 x 3 = 3 and 1 x 4 = 4 (1 is the neutral element in multiplication whereas 2 is not and is a common factor between 6 and 8) satisfies that.
+
+How can we prove for any ordering/category this is true?
+
+Consider the poset 𝒞 which contains objects A, B, and C or 𝒞(A, B, C).
+And in natural poset fashion, there is an ordering such that  
+
+f: A -> B and g: B -> C and h:B -> D. So B is some common factor between two terminal objects C and D.
+
+So it can be said that there is only one unique composition h for a poset 𝒞. This 'h' morphism can be used
+to derive the values of f and g and consequently A and B.
+
+A is the initial object. And for any two terminal C and D objects, there exists an isomorphism up to unique isomorphisms.
+
+As we proved previously, C and D as isomorphic since they are terminal objects. What we can say about this, is that if 
+we take an isomorphism T!: C -> D or T'!: D -> C, we can determine that this isomorphic morphism is simply equal
+to our factor.
+
+### Question 3
+What is a coproduct of two objects in a poset?
+Coproduct of two objects in a poset is simply the reverse of a product, but the terminal object is the initial object
+and vice versa.
